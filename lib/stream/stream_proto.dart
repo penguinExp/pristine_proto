@@ -14,8 +14,17 @@ class StateManager<T> {
 
   Stream<T> get stream => _streamController.stream;
 
-  void update(T newState) {
+  void assign(T newState) {
     _state = newState;
+    _updateState();
+  }
+
+  void update(T Function(T) updateCallback) {
+    _state = updateCallback(_state);
+    _updateState();
+  }
+
+  void _updateState() {
     _streamController.add(_state);
   }
 
@@ -24,9 +33,9 @@ class StateManager<T> {
   }
 }
 
-class StateWidget extends StatelessWidget {
-  final Widget Function(BuildContext, AsyncSnapshot<dynamic>) child;
-  final StateManager stateManager;
+class StateWidget<T> extends StatelessWidget {
+  final Widget Function(T data) child;
+  final StateManager<T> stateManager;
   const StateWidget({Key? key, required this.child, required this.stateManager})
       : super(key: key);
 
@@ -35,7 +44,9 @@ class StateWidget extends StatelessWidget {
     return StreamBuilder(
       stream: stateManager.stream,
       initialData: stateManager.state,
-      builder: child,
+      builder: (context, snapshot) {
+        return child(snapshot.data as T);
+      },
     );
   }
 }
@@ -57,11 +68,11 @@ class StreamProto extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Kind of like OBX
-            StateWidget(
+            StateWidget<int>(
               stateManager: stateManager,
-              child: (context, snap) {
+              child: (data) {
                 return Text(
-                  'Counter: ${snap.data}',
+                  'Counter: $data',
                   style: const TextStyle(fontSize: 24),
                 );
               },
@@ -71,9 +82,10 @@ class StreamProto extends StatelessWidget {
               child: const Text('Increment'),
               onPressed: () {
                 // Updating the state
-                final currentState = stateManager.state;
-                
-                stateManager.update(currentState + 1);
+
+                // stateManager.assign(1);
+
+                stateManager.update((i) => i + 1);
               },
             ),
           ],
