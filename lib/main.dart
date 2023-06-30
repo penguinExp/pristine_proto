@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'stream/stream_test.dart';
+import 'value_notifier/value_test.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const StreamCounter(),
+      home: const ValueCounter(),
     );
   }
 }
