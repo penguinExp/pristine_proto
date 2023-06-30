@@ -2,10 +2,22 @@ import 'package:flutter/material.dart';
 
 import 'stream_proto.dart';
 
-final stateManager = StateManager<int>(0);
-
-class StreamCounter extends StatelessWidget {
+class StreamCounter extends StatefulWidget {
   const StreamCounter({Key? key}) : super(key: key);
+
+  @override
+  State<StreamCounter> createState() => _StreamCounterState();
+}
+
+class _StreamCounterState extends State<StreamCounter> {
+  final stateManager = StateManager<int>(0);
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    stateManager.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

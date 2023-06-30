@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class StateManager<T> {
@@ -34,7 +35,7 @@ class StateManager<T> {
 }
 
 class StateWidget<T> extends StatelessWidget {
-  final Widget Function(T data) child;
+  final Widget Function(T? data) child;
   final StateManager<T> stateManager;
   const StateWidget({
     Key? key,
@@ -48,7 +49,7 @@ class StateWidget<T> extends StatelessWidget {
       stream: stateManager.stream,
       initialData: stateManager.state,
       builder: (context, snapshot) {
-        return child(snapshot.data as T);
+        return child(snapshot.data);
       },
     );
   }
