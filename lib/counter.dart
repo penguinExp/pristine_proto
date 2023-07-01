@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pristine_proto/pristine/store.dart';
 
+import 'pristine/store.dart';
 import 'pristine/value_watcher.dart';
 
 class ValueCounter extends StatefulWidget {
@@ -11,8 +11,24 @@ class ValueCounter extends StatefulWidget {
 }
 
 class _ValueCounterState extends State<ValueCounter> {
-  final ValueStore<int> counter = ValueStore(0);
-  final ValueStore<String> text = ValueStore('0');
+  late final ValueStore<int> counter;
+
+  late final ValueStore<String> text;
+
+  @override
+  void initState() {
+    super.initState();
+
+    counter = ValueStore(0);
+
+    text = ValueStore(
+      '0',
+      depends: (p0) {
+        final text = "Pressed ${counter.state} times";
+        return text;
+      },
+    );
+  }
 
   @override
   void dispose() {
@@ -30,6 +46,16 @@ class _ValueCounterState extends State<ValueCounter> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            ValueWidget<String>(
+              stateManager: text,
+              widget: (data) {
+                return Text(
+                  data,
+                  style: const TextStyle(fontSize: 24),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
             ValueWidget<int>(
               stateManager: counter,
               widget: (data) {
@@ -42,18 +68,24 @@ class _ValueCounterState extends State<ValueCounter> {
             const SizedBox(height: 20),
             ElevatedButton(
               child: const Text('Increment'),
-              onPressed: () => counter.update((i) => i + 1),
+              onPressed: () {
+                counter.update((i) => i + 1);
+                text.update((p0) => p0);
+              },
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               child: const Text('Decrement'),
-              onPressed: () => counter.update((i) {
-                if (i <= 0) {
-                  return i;
-                }
+              onPressed: () {
+                counter.update((i) {
+                  if (i <= 0) {
+                    return i;
+                  }
 
-                return i - 1;
-              }),
+                  return i - 1;
+                });
+                text.update((p0) => p0);
+              },
             ),
           ],
         ),

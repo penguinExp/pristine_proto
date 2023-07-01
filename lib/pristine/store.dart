@@ -17,16 +17,23 @@ abstract class Store<T> {
 class ValueStore<T> extends Store<T> {
   late ValueNotifier<T> _valueNotifier;
 
+  T Function(T)? depends;
+
   ValueNotifier<T> get stream => _valueNotifier;
 
-  ValueStore(T defaultValue) {
+  ValueStore(T defaultValue, {this.depends}) {
     _state = defaultValue;
     _valueNotifier = ValueNotifier<T>(_state);
   }
 
   @override
-  void assign(T value) {
-    _state = value;
+  void assign(T? value) {
+    if (depends != null) {
+      _state = depends!(_state);
+    } else {
+      _state = value ?? _state;
+    }
+
     _valueNotifier.value = _state;
   }
 
