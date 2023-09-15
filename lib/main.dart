@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pristine_proto/store.dart';
+
+import 'builder.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +17,50 @@ class MyApp extends StatelessWidget {
       title: 'Pristine Proto',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+      ),
+      home: const CounterView(),
+    );
+  }
+}
+
+class CounterView extends StatefulWidget {
+  const CounterView({super.key});
+
+  @override
+  State<CounterView> createState() => _CounterViewState();
+}
+
+class _CounterViewState extends State<CounterView> {
+  final counter = ValueStore<int>(0);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ValueWidget<int>(
+            widget: (value) => Text('$value'),
+            stateManager: counter,
+          ),
+          const SizedBox(height: 50),
+          ElevatedButton(
+            child: const Text('Increment'),
+            onPressed: () {
+              counter.update((p0) {
+                return p0 + 1;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            child: const Text('Reset'),
+            onPressed: () {
+              counter.assign(0);
+            },
+          ),
+        ],
       ),
     );
   }
