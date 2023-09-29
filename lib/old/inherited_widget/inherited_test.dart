@@ -60,9 +60,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         home: Scaffold(
           appBar: AppBar(title: const Text('State Manager Example')),
-          body: Column(
+          body: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               CounterWidget(),
               IncrementButton(),
             ],
