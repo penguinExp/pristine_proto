@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pristine_proto/store.dart';
+import 'state_widget.dart';
+import 'store.dart';
 
 import 'builder.dart';
 
@@ -63,5 +64,15 @@ class _CounterViewState extends State<CounterView> {
         ],
       ),
     );
+  }
+}
+
+// This is the example of the slider widget
+class SliderWidget extends PristineStateWidget<int> {
+  const SliderWidget({Key? key}) : super(key: key, initialValue: 0);
+
+  @override
+  Widget build(BuildContext context, int state) {
+    return Text(state.toString());
   }
 }

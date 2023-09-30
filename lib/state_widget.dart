@@ -31,7 +31,7 @@ class PristineStateWidgetState<T> extends State<PristineStateWidget> {
   void initState() {
     super.initState();
 
-    // valueStore = ValueStore<T>(widget.initialValue);
+    valueStore = ValueStore<T>(widget.initialValue);
   }
 
   @override
@@ -45,15 +45,5 @@ class PristineStateWidgetState<T> extends State<PristineStateWidget> {
     return ValueWidget<T>(
         widget: (state) => widget.build(context, state),
         stateManager: valueStore);
-  }
-}
-
-// This is the example of the slider widget
-class SliderWidget extends PristineStateWidget<int> {
-  const SliderWidget({Key? key}) : super(key: key, initialValue: 0);
-
-  @override
-  Widget build(BuildContext context, int state) {
-    return Text(state.toString());
   }
 }
