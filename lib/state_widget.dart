@@ -5,13 +5,18 @@ import 'builder.dart';
 
 abstract class PristineStateWidget<T> extends StatefulWidget {
   final T initialValue;
+  late final ValueStore<T> valueStore;
 
-  const PristineStateWidget({required this.initialValue, Key? key})
-      : super(key: key);
+  PristineStateWidget({required this.initialValue, Key? key})
+      : super(key: key) {
+    valueStore = ValueStore<T>(initialValue);
+  }
 
   Widget build(BuildContext context, T state);
 
-  void update() {}
+  void update(T newState) {
+    valueStore.assign(newState);
+  }
 
   void dispose() {}
 
@@ -25,25 +30,23 @@ abstract class PristineStateWidget<T> extends StatefulWidget {
 }
 
 class PristineStateWidgetState<T> extends State<PristineStateWidget> {
-  late final ValueStore<T> valueStore;
-
   @override
   void initState() {
     super.initState();
-
-    valueStore = ValueStore<T>(widget.initialValue);
   }
 
   @override
   void dispose() {
     widget.dispose();
+    widget.valueStore.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ValueWidget<T>(
-        widget: (state) => widget.build(context, state),
-        stateManager: valueStore);
+      widget: (state) => widget.build(context, state),
+      stateManager: widget.valueStore as ValueStore<T>,
+    );
   }
 }
