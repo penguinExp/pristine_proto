@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'store.dart';
 
-class ValueWidget<T> extends StatelessWidget {
-  final Widget Function(T data) widget;
-  final ValueStore<T> stateManager;
-  const ValueWidget({
+class StoreBuilder<T> extends StatelessWidget {
+  final Widget Function(BuildContext context, T data) widget;
+  final Store<T> stateManager;
+
+  const StoreBuilder({
     Key? key,
     required this.widget,
     required this.stateManager,
@@ -16,7 +17,7 @@ class ValueWidget<T> extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: stateManager.stream,
       builder: (context, value, _) {
-        return widget(value);
+        return widget(context, value);
       },
     );
   }

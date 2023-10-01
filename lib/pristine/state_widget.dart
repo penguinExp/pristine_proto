@@ -1,21 +1,26 @@
 import 'package:flutter/widgets.dart';
-import 'package:pristine_proto/store.dart';
-
-import 'builder.dart';
+import 'store_builder.dart';
+import 'store.dart';
 
 abstract class PristineStateWidget<T> extends StatefulWidget {
   final T initialValue;
-  late final ValueStore<T> valueStore;
+  late final Store<T> valueStore;
 
   PristineStateWidget({required this.initialValue, Key? key})
       : super(key: key) {
-    valueStore = ValueStore<T>(initialValue);
+    valueStore = Store<T>(initialValue);
   }
 
   Widget build(BuildContext context, T state);
 
-  void update(T newState) {
-    valueStore.assign(newState);
+  void assign(T newState) {
+    valueStore.update((p0) {
+      return newState;
+    });
+  }
+
+  void update(T Function(T) updateCallback) {
+    valueStore.update(updateCallback);
   }
 
   void dispose() {}
@@ -44,9 +49,9 @@ class PristineStateWidgetState<T> extends State<PristineStateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueWidget<T>(
-      widget: (state) => widget.build(context, state),
-      stateManager: widget.valueStore as ValueStore<T>,
+    return StoreBuilder<T>(
+      widget: (ctx, state) => widget.build(ctx, state),
+      stateManager: widget.valueStore as Store<T>,
     );
   }
 }

@@ -1,23 +1,24 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 abstract class PristineStore<T> {
   late T _state;
 
   T get state => _state;
 
-  void assign(T value);
+  // ignore: unused_element
+  void _assign(T value);
 
   void update(T Function(T) updateCallback);
 
   void dispose();
 }
 
-class ValueStore<T> extends PristineStore<T> {
+class Store<T> extends PristineStore<T> {
   late ValueNotifier<T> _valueNotifier;
 
   T Function(T)? depends;
 
-  ValueStore(T defaultValue, {this.depends}) {
+  Store(T defaultValue, {this.depends}) {
     _state = defaultValue;
     _valueNotifier = ValueNotifier<T>(_state);
   }
@@ -25,7 +26,7 @@ class ValueStore<T> extends PristineStore<T> {
   ValueNotifier<T> get stream => _valueNotifier;
 
   @override
-  void assign(T value) {
+  void _assign(T value) {
     if (depends != null) {
       _state = depends!(_state);
     } else {
@@ -42,6 +43,6 @@ class ValueStore<T> extends PristineStore<T> {
 
   @override
   void update(T Function(T) updateCallback) {
-    assign(updateCallback(_state));
+    _assign(updateCallback(_state));
   }
 }
