@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pristine_proto/views/slider.view.dart';
-// import 'views/counter.view.dart';
+
+import 'views/counter.view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SliderView(),
+      home: const CounterView(),
     );
   }
 }

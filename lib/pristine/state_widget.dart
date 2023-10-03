@@ -19,7 +19,7 @@ abstract class PristineStateWidget<T> extends StatefulWidget {
     });
   }
 
-  void update(T Function(T) updateCallback) {
+  void update(dynamic Function(dynamic) updateCallback) {
     valueStore.update(updateCallback);
   }
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'brain.dart';
 
 abstract class PristineStore<T> {
   late T _state;
 
   T get state => _state;
 
-  // ignore: unused_element
-  void _assign(T value);
+  void assign(T value);
 
-  void update(T Function(T) updateCallback);
+  void update(dynamic Function(dynamic) updateCallback);
 
   void dispose();
 }
@@ -16,17 +16,32 @@ abstract class PristineStore<T> {
 class Store<T> extends PristineStore<T> {
   late ValueNotifier<T> _valueNotifier;
 
-  T Function(T)? depends;
+  dynamic Function(dynamic)? depends;
 
-  Store(T defaultValue, {this.depends}) {
+  Set<Store<dynamic>>? _dependencies;
+
+  Store(
+    T defaultValue, {
+    T Function(T)? d,
+    Set<Store<T>>? dependencies,
+  }) {
     _state = defaultValue;
+    _dependencies = dependencies;
     _valueNotifier = ValueNotifier<T>(_state);
+
+    if (d != null) {
+      depends = (p0) => d(p0) as dynamic;
+    }
+
+    if (_dependencies != null) {
+      PristineBrain().addStore(this, _dependencies!);
+    }
   }
 
   ValueNotifier<T> get stream => _valueNotifier;
 
   @override
-  void _assign(T value) {
+  void assign(T value) {
     if (depends != null) {
       _state = depends!(_state);
     } else {
@@ -34,6 +49,8 @@ class Store<T> extends PristineStore<T> {
     }
 
     _valueNotifier.value = _state;
+
+    PristineBrain().updateStore(this);
   }
 
   @override
@@ -42,7 +59,7 @@ class Store<T> extends PristineStore<T> {
   }
 
   @override
-  void update(T Function(T) updateCallback) {
-    _assign(updateCallback(_state));
+  void update(dynamic Function(dynamic) updateCallback) {
+    assign(updateCallback(_state) as T);
   }
 }
