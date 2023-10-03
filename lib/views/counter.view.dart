@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../pristine/controller.dart';
+import '../pristine/pristine.dart';
 import '../pristine/store.dart';
 import '../pristine/store_builder.dart';
 
@@ -11,26 +13,18 @@ class CounterView extends StatefulWidget {
 }
 
 class _CounterViewState extends State<CounterView> {
-  final Store<int> counter = Store<int>(0, d: (p0) {
-    return p0 + 2;
-  });
-
-  late final Store<int> counter_2;
-
-  void updateCounter() {
-    counter_2.update((p0) => p0 + 1);
-  }
+  late final CounterController controller;
 
   @override
   void initState() {
     super.initState();
 
-    counter_2 = Store<int>(0, dependencies: {counter});
+    controller = Pristine().put(() => CounterController());
   }
 
   @override
   void dispose() {
-    counter.dispose();
+    Pristine().delete<CounterController>();
 
     super.dispose();
   }
@@ -49,7 +43,7 @@ class _CounterViewState extends State<CounterView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               StoreBuilder(
-                stateManager: counter_2,
+                stateManager: controller.counter1,
                 widget: (ctx, data) {
                   return Text(data.toString());
                 },
@@ -58,7 +52,7 @@ class _CounterViewState extends State<CounterView> {
                 height: 10,
               ),
               StoreBuilder(
-                stateManager: counter,
+                stateManager: controller.counter2,
                 widget: (ctx, data) {
                   return Text(data.toString());
                 },
@@ -67,7 +61,7 @@ class _CounterViewState extends State<CounterView> {
                 height: 10,
               ),
               ElevatedButton(
-                onPressed: updateCounter,
+                onPressed: controller.updateCounter2,
                 child: const Text("Update Counter"),
               )
             ],
@@ -75,5 +69,32 @@ class _CounterViewState extends State<CounterView> {
         ),
       ),
     );
+  }
+}
+
+class CounterController extends PristineController {
+  late final Store<int> counter1;
+  late final Store<int> counter2;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    counter1 = Store(0, d: (val) {
+      return val + counter2.state;
+    });
+
+    counter2 = Store(0, dependencies: {counter1});
+  }
+
+  @override
+  void onDispose() {
+    counter1.dispose();
+    counter2.dispose();
+    super.onDispose();
+  }
+
+  void updateCounter2() {
+    counter2.update((p0) => p0 + 1);
   }
 }
