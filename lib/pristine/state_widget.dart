@@ -14,16 +14,18 @@ abstract class PristineStateWidget<T> extends StatefulWidget {
   Widget build(BuildContext context, T state);
 
   void assign(T newState) {
-    valueStore.update((p0) {
-      return newState;
-    });
+    valueStore.assign(newState);
   }
 
-  void update(dynamic Function(dynamic) updateCallback) {
-    valueStore.update(updateCallback);
-  }
-
+  ///
+  /// This can be used to dispose any controllers
+  ///
   void dispose() {}
+
+  ///
+  /// This can be used to dispose any controllers
+  ///
+  void init() {}
 
   @override
   String toStringShort() {
@@ -38,12 +40,19 @@ class PristineStateWidgetState<T> extends State<PristineStateWidget> {
   @override
   void initState() {
     super.initState();
+
+    // init users init call
+    widget.init();
   }
 
   @override
   void dispose() {
+    // disposing user's dispose method
     widget.dispose();
+
+    // dispose the default store
     widget.valueStore.dispose();
+
     super.dispose();
   }
 

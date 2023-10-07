@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../pristine/state_widget.dart';
@@ -31,6 +33,20 @@ class SliderWidget extends PristineStateWidget<double> {
   SliderWidget({Key? key}) : super(key: key, initialValue: 0);
 
   @override
+  void init() {
+    super.init();
+
+    log('Any controller can be initialised here');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    log("Any controllers can be disposed here");
+  }
+
+  @override
   Widget build(BuildContext context, double state) {
     return Column(
       children: [
@@ -46,7 +62,8 @@ class SliderWidget extends PristineStateWidget<double> {
             max: 100,
             divisions: 100,
             onChanged: (val) {
-              assign(val);
+              // Can change value directly
+              assign(val + 1);
             },
           ),
         ),
