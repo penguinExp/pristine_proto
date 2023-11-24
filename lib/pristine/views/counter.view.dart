@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../pristine/controller.dart';
-import '../pristine/pristine.dart';
-import '../pristine/store.dart';
-import '../pristine/store_builder.dart';
+import '../controller.dart';
+import '../pristine.dart';
+import '../store.dart';
+import '../store_builder.dart';
 
 class CounterView extends StatefulWidget {
   const CounterView({super.key});

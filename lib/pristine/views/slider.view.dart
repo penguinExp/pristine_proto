@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '../pristine/state_widget.dart';
+import '../state_widget.dart';
 
 class SliderView extends StatelessWidget {
   const SliderView({Key? key}) : super(key: key);
