@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pristine_proto/one_state/views/simple_counter.os.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SimpleCounterViewOS(),
+      // home: const SimpleCounterViewOS(),
     );
   }
 }
