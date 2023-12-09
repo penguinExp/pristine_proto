@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'views/list_api.view.dart';
+
+// import 'views/list.view.dart';
+
+// import 'views/slider.view.dart';
+
+// import 'views/counter.view.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -7,7 +15,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const SimpleCounterViewOS(),
+      home: const ListApiView(),
     );
   }
 }
