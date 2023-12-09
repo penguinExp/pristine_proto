@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import '../builder.os.dart';
 import '../store.os.dart';
 
-class User {
-  String name = "one";
-}
-
 class SimpleCounterViewOS extends StatefulWidget {
   const SimpleCounterViewOS({super.key});
 
@@ -14,16 +10,11 @@ class SimpleCounterViewOS extends StatefulWidget {
 }
 
 class _SimpleCounterViewOSState extends State<SimpleCounterViewOS> {
-  final counterStore = OneStore(0);
-  final listStore = OneStore([1, 2]);
-  final userStore = OneStore(User());
+  final store = ValueStore([1, 2]);
 
   @override
   void dispose() {
-    counterStore.dispose();
-    listStore.dispose();
-    userStore.dispose();
-
+    store.dispose();
     super.dispose();
   }
 
@@ -39,14 +30,7 @@ class _SimpleCounterViewOSState extends State<SimpleCounterViewOS> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BuilderOS(
-              store: userStore,
-              widget: (context, data) {
-                return Text(data.name.toString());
-              },
-            ),
-            const SizedBox(height: 20),
-            BuilderOS(
-              store: counterStore,
+              store: store,
               widget: (context, data) {
                 return Text(data.toString());
               },
@@ -55,9 +39,9 @@ class _SimpleCounterViewOSState extends State<SimpleCounterViewOS> {
             ElevatedButton(
               child: const Text("Update Values"),
               onPressed: () {
-                // counterStore.updateWith((val) => val + 2);
-                // listStore.updateWith((p0) => p0..add(2));
-                userStore.updateWith((p0) => p0..name = "two");
+                store.update((value) {
+                  return value..add(3);
+                });
               },
             ),
           ],

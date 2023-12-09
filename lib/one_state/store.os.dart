@@ -1,54 +1,51 @@
-import 'dart:async';
+import 'package:flutter/material.dart';
 
-abstract class _OneStateStore<T> {
+abstract class AOneStore<T> {
   late T _state;
 
-  late StreamController<T> _streamController;
+  T get state;
 
-  _OneStateStore() {
-    _streamController = StreamController<T>.broadcast();
-  }
+  // update the value of the state
+  void set(T value);
 
-  Stream<T> get stream => _streamController.stream;
+  void update(T Function(T value) updateCallback);
 
-  void set(T value) {
-    _state = value;
-    _streamController.add(_state);
-  }
-
-  void update();
-
-  void updateWith(T Function(T) updateCallback);
-
-  void dispose() {
-    _streamController.close();
-  }
+  // to dispose off the store
+  void dispose();
 }
 
-class OneStore<T> extends _OneStateStore<T> {
-  dynamic Function(dynamic)? _customUpdate;
+class ValueStore<T> extends AOneStore<T> with ChangeNotifier {
+  late ValueNotifier<T> _valueNotifier;
 
-  OneStore(
-    T value, {
-    T Function(T)? depends,
-  }) {
+  ValueStore(T value) {
+    _state = value;
+    _valueNotifier = ValueNotifier(_state);
+  }
+
+  ValueNotifier<T> get notifier => _valueNotifier;
+
+  @override
+  T get state => _state;
+
+  @override
+  void dispose() {
+    _valueNotifier.dispose();
+    super.dispose();
+  }
+
+  @override
+  void set(T value) {
     _state = value;
 
-    if (depends != null) {
-      _customUpdate = (p0) => depends(p0) as dynamic;
-    }
+    _valueNotifier.value = _state;
   }
 
   @override
-  void update() {
-    if (_customUpdate != null) {
-      final value = _customUpdate!(_state);
-      set(value);
-    }
-  }
+  void update(T Function(T value) updateCallback) {
+    _state = updateCallback(_state);
 
-  @override
-  void updateWith(T Function(T) updateCallback) {
-    set(updateCallback(_state));
+    _valueNotifier.value = _state;
+
+    _valueNotifier.notifyListeners();
   }
 }
