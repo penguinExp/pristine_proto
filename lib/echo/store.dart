@@ -21,8 +21,6 @@ abstract class AEchoStore<T> {
 class ValueStore<T> extends AEchoStore<T> {
   late ValueNotifier<T> _stateNotifier;
 
-  final Echo _echo = Echo();
-
   ValueStore(
     T value, {
     T Function(T value)? callback,
@@ -33,7 +31,7 @@ class ValueStore<T> extends AEchoStore<T> {
     _state = value;
     _stateNotifier = ValueNotifier(_state);
 
-    _echo.createStoreNode(this, dependencies ?? {});
+    echo.createStoreNode(this, dependencies ?? {});
   }
 
   ValueNotifier get notifier => _stateNotifier;
@@ -42,7 +40,7 @@ class ValueStore<T> extends AEchoStore<T> {
   void dispose() {
     _stateNotifier.dispose();
 
-    _echo.removeStoreNode(this);
+    echo.removeStoreNode(this);
   }
 
   @override
@@ -50,7 +48,7 @@ class ValueStore<T> extends AEchoStore<T> {
     _state = value;
     _stateNotifier.value = _state;
 
-    _echo.updateDependencies(this);
+    echo.updateDependencies(this);
 
     return this;
   }
@@ -68,7 +66,7 @@ class ValueStore<T> extends AEchoStore<T> {
 
     _stateNotifier.value = _state;
 
-    _echo.updateDependencies(this);
+    echo.updateDependencies(this);
 
     return this;
   }
