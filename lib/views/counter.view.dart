@@ -11,7 +11,19 @@ class CounterView extends StatefulWidget {
 }
 
 class _CounterViewState extends State<CounterView> {
-  final store = ValueStore(1);
+  final store = ValueStore(
+    1,
+    callback: (value) => value + 2,
+  );
+
+  late final ValueStore store2;
+
+  @override
+  void initState() {
+    super.initState();
+
+    store2 = ValueStore(1, dependencies: {store});
+  }
 
   @override
   void dispose() {
@@ -21,6 +33,7 @@ class _CounterViewState extends State<CounterView> {
 
   @override
   Widget build(BuildContext context) {
+    store.defaultDependencies = {store2};
     return Scaffold(
       appBar: AppBar(
         title: const Text("Simple Counter"),
@@ -33,14 +46,21 @@ class _CounterViewState extends State<CounterView> {
             ValueBuilder(
               store: store,
               widget: (context, data) {
-                return Text(data.toString());
+                return Text("store1 $data");
+              },
+            ),
+            const SizedBox(height: 20),
+            ValueBuilder(
+              store: store2,
+              widget: (context, data) {
+                return Text("store2 $data");
               },
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               child: const Text("Update Values"),
               onPressed: () {
-                store.update((value) {
+                store2.update((value) {
                   return value + 1;
                 });
               },

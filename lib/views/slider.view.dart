@@ -11,8 +11,15 @@ class SliderView extends StatefulWidget {
 }
 
 class _CounterViewState extends State<SliderView> {
-  final store = ValueStore<double>(1);
-  final store2 = ValueStore<double>(1.0);
+  late final ValueStore store;
+  final store2 = ValueStore<double>(1.0, callback: (value) => value + 1);
+
+  @override
+  void initState() {
+    super.initState();
+
+    store = ValueStore<double>(1, dependencies: {store2});
+  }
 
   @override
   void dispose() {
@@ -41,8 +48,6 @@ class _CounterViewState extends State<SliderView> {
                   max: 20,
                   onChanged: (val) {
                     store.set(val);
-
-                    store2.update((value) => store.state + 5);
                   },
                 );
               },
@@ -64,6 +69,7 @@ class _CounterViewState extends State<SliderView> {
               child: const Text("Reset"),
               onPressed: () {
                 store.set(1);
+                store2.set(1);
               },
             ),
           ],
