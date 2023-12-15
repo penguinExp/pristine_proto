@@ -1,7 +1,7 @@
 import 'store.dart';
 
 class EchoGraph {
-  late final Map<AEchoStore, Set<AEchoStore>> _graph;
+  final Map<AEchoStore, Set<AEchoStore>> _graph;
 
   EchoGraph() : _graph = {};
 
