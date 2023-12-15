@@ -1,11 +1,12 @@
-import 'controller.dart';
+import 'package:flutter/material.dart';
 
+import 'controller.dart';
 import 'echo_graph.dart';
 import 'store.dart';
 
 final Echo echo = Echo();
 
-class Echo {
+class Echo with EchoControllerMixin, EchoStoreMixin {
   static Echo? _instance;
 
   Echo._();
@@ -15,10 +16,10 @@ class Echo {
 
     return _instance!;
   }
+}
 
+mixin EchoStoreMixin {
   final EchoGraph _graph = EchoGraph();
-
-  final Map<EchoControllerTypeKey, EchoController> _controllers = {};
 
   void createStoreNode(AEchoStore store, Set<AEchoStore> dependencies) {
     _graph.createNode(store, dependencies);
@@ -39,42 +40,37 @@ class Echo {
       element.update(null);
     }
   }
+}
 
-  PristineControllerType put<PristineControllerType extends EchoController>(
-    PristineControllerType Function() create,
+mixin EchoControllerMixin {
+  final Map<Key, EchoController> _controllers = {};
+
+  T put<T extends EchoController>(
+    T Function() create,
   ) {
-    //
-    final key = EchoControllerTypeKey<PristineControllerType>();
-
-    // Retrieve existing controller if it exists
-    if (_controllers.containsKey(key)) {
-      return _controllers[key]! as PristineControllerType;
-    }
-
-    // Create a new controller instance
     final controller = create();
 
-    // Store the controller instance
+    final key = controller.key;
+
+    if (_controllers.containsKey(key)) {
+      return _controllers[key]! as T;
+    }
+
     _controllers[key] = controller;
 
-    // Call onInit function
     controller.onInit();
 
     return controller;
   }
 
-  // Function to delete a controller instance
-  void delete<PristineControllerType extends EchoController>() {
-    final key = EchoControllerTypeKey<PristineControllerType>();
+  void delete(EchoController controller) {
+    final key = controller.key;
 
-    // Retrieve the controller instance if it exists
-    final controller = _controllers[key];
+    final ctrl = _controllers[key];
 
-    if (controller != null) {
-      // Call onDispose function
-      controller.onDispose();
+    if (ctrl != null) {
+      ctrl.onDispose();
 
-      // Remove the controller instance from the map
       _controllers.remove(key);
     }
   }

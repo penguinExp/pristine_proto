@@ -1,13 +1,11 @@
+import 'package:flutter/material.dart';
+
 abstract class EchoController {
+  final GlobalKey key;
+
+  EchoController() : key = GlobalKey();
+
   void onInit() {}
 
   void onDispose() {}
-}
-
-class EchoControllerTypeKey<T> {
-  const EchoControllerTypeKey();
-}
-
-extension EchoControllerTypeKeyExtension<T> on T {
-  EchoControllerTypeKey<T> get key => const EchoControllerTypeKey();
 }

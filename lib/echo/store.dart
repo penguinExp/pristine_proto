@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'echo.dart';
 
+///
+/// It's better to make septate function to add dependency to the store
+/// rather then adding them via the constructor
+///
+
 abstract class AEchoStore<T> {
   late T _state;
 

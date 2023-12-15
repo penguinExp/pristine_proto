@@ -48,7 +48,7 @@ class _CounterViewState extends State<CounterView> {
 
   @override
   void dispose() {
-    echo.delete<CounterController>();
+    echo.delete(_controller);
 
     super.dispose();
   }
