@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../echo/controller.dart';
-import '../echo/echo.dart';
+import '../old_echo/controller.dart';
+import '../old_echo/echo.dart';
 
-import '../echo/builder.dart';
-import '../echo/store.dart';
+import '../old_echo/builder.dart';
+import '../old_echo/store.dart';
 
 class CounterController extends EchoController {
   final store = ValueStore(
