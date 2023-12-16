@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import '../old_echo/controller.dart';
-import '../old_echo/echo.dart';
 
-import '../old_echo/builder.dart';
-import '../old_echo/store.dart';
+import '../echo/builder.dart';
+import '../echo/controller.dart';
+import '../echo/echo.dart';
+import '../echo/store.dart';
 
 class CounterController extends EchoController {
-  final store = ValueStore(
-    1,
-    callback: (value) => value + 2,
-  );
+  final store = ValueStore(1);
 
-  late final ValueStore store2;
+  late final StreamStore store2;
 
   @override
   void onInit() {
-    super.onInit();
+    store2 = StreamStore(
+      [],
+      updateCallback: (value) {
+        return value..add(store.state);
+      },
+    );
 
-    store2 = ValueStore(1, dependencies: {store});
+    store.addDependency(store2);
   }
 
   @override
   void onDispose() {
-    super.onDispose();
-
     store.dispose();
     store2.dispose();
   }
@@ -38,6 +38,8 @@ class CounterView extends StatefulWidget {
 
 class _CounterViewState extends State<CounterView> {
   late final CounterController _controller;
+
+  final Echo echo = Echo();
 
   @override
   void initState() {
@@ -71,7 +73,7 @@ class _CounterViewState extends State<CounterView> {
               },
             ),
             const SizedBox(height: 20),
-            ValueBuilder(
+            StreamStoreBuilder(
               store: _controller.store2,
               widget: (context, data) {
                 return Text("store2 $data");
@@ -81,7 +83,7 @@ class _CounterViewState extends State<CounterView> {
             ElevatedButton(
               child: const Text("Update Values"),
               onPressed: () {
-                _controller.store2.update((value) {
+                _controller.store.update((value) {
                   return value + 1;
                 });
               },

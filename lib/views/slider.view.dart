@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../old_echo/builder.dart';
-import '../old_echo/store.dart';
+import '../echo/builder.dart';
+import '../echo/store.dart';
 
 class SliderView extends StatefulWidget {
   const SliderView({super.key});
@@ -11,20 +11,27 @@ class SliderView extends StatefulWidget {
 }
 
 class _CounterViewState extends State<SliderView> {
-  late final ValueStore store;
-  final store2 = ValueStore<double>(1.0, callback: (value) => value + 1);
+  final store = ValueStore<double>(1);
+  final store2 = ValueStore<double>(1);
 
   @override
   void initState() {
     super.initState();
 
-    store = ValueStore<double>(1, dependencies: {store2});
+    store2.autoUpdate(
+      (_) {
+        return store.state;
+      },
+    );
+
+    store.addDependency(store2);
   }
 
   @override
   void dispose() {
     store.dispose();
     store2.dispose();
+
     super.dispose();
   }
 

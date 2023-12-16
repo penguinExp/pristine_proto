@@ -4,9 +4,9 @@ import 'controller.dart';
 import 'graph.dart';
 import 'store.dart';
 
-/// 
+///
 /// class to manage controllers
-/// 
+///
 class Echo {
   static Echo? _instance;
 
@@ -89,6 +89,7 @@ class EchoStore {
 
   // add a dependency for a root node
   void addDependency(EchoStoreInterface root, EchoStoreInterface node) {
+    // log("added dependency -> $root w/ $node");
     _graph.addNode(root, node);
   }
 

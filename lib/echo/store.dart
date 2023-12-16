@@ -12,7 +12,8 @@ abstract class EchoStoreInterface<T> {
 
   /// a function to set the update logic
   /// to update the store automatically
-  final T Function(T value)? updateCallback;
+  /// may change in future by the user, i.e. not a _final_
+  T Function(T value)? updateCallback;
 
   EchoStoreInterface(this.state, {this.updateCallback}) {
     _echoStore.createRootNode(this);
@@ -30,16 +31,20 @@ abstract class EchoStoreInterface<T> {
   }
 
   /// to update the state using [updateCallback]
-  void autoUpdate();
+  /// receive the auto update function if already not being set
+  /// TODO: need to ditach the update callback _update_ from this function
+  void autoUpdate([T Function(T value)? newCallback]);
 
   /// add dependency to the current store
-  void addDependency(EchoStoreInterface<T> store) {
+  /// the dependency may of any type, so do not add [T] to the interface
+  void addDependency(EchoStoreInterface store) {
     _echoStore.addDependency(this, store);
     // log if dependency was not added
   }
 
   /// remove the dependency from the current store
-  void removeDependency(EchoStoreInterface<T> store) {
+  /// the dependency may of any type, so do not add [T] to the interface
+  void removeDependency(EchoStoreInterface store) {
     _echoStore.removeDependency(this, store);
     // log if the dependency was not removed
   }
@@ -71,6 +76,8 @@ class ValueStore<T> extends EchoStoreInterface<T> {
     state = newState;
 
     _valueNotifier.value = state;
+
+    _echoStore.updateStoreNodes(this);
   }
 
   @override
@@ -85,7 +92,11 @@ class ValueStore<T> extends EchoStoreInterface<T> {
   }
 
   @override
-  void autoUpdate() {
+  void autoUpdate([T Function(T value)? newCallback]) {
+    if (newCallback != null) {
+      updateCallback = newCallback;
+    }
+
     if (updateCallback != null) {
       final newState = updateCallback!(state);
 
@@ -118,7 +129,11 @@ class StreamStore<T> extends EchoStoreInterface<T> {
   }
 
   @override
-  void autoUpdate() {
+  void autoUpdate([T Function(T value)? newCallback]) {
+    if (newCallback != null) {
+      updateCallback = newCallback;
+    }
+
     if (updateCallback != null) {
       final newState = updateCallback!(state);
       _setState(newState);

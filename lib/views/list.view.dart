@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../old_echo/builder.dart';
-import '../old_echo/store.dart';
+import '../echo/builder.dart';
+import '../echo/store.dart';
 
 class SimpleListView extends StatefulWidget {
   const SimpleListView({super.key});
@@ -11,7 +10,7 @@ class SimpleListView extends StatefulWidget {
 }
 
 class _SimpleListViewState extends State<SimpleListView> {
-  final store = ObjectStore([1, 2]);
+  final store = StreamStore([1, 2]);
 
   @override
   void dispose() {
@@ -30,7 +29,7 @@ class _SimpleListViewState extends State<SimpleListView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ObjectBuilder(
+            StreamStoreBuilder(
               store: store,
               widget: (context, data) {
                 return SizedBox(
@@ -48,10 +47,11 @@ class _SimpleListViewState extends State<SimpleListView> {
             ElevatedButton(
               child: const Text("Add Item"),
               onPressed: () {
-                store
-                    .update((value) => value..add(3))
-                    .update((value) => value..add(4))
-                    .update((value) => value..remove(4));
+                store.update((value) => value..add(3));
+                // store
+                //     .update((value) => value..add(3))
+                //     .update((value) => value..add(4))
+                //     .update((value) => value..remove(4));
               },
             ),
           ],
