@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../echo/logger.dart';
 
 import '../echo/builder.dart';
 import '../echo/controller.dart';
@@ -83,9 +84,25 @@ class _CounterViewState extends State<CounterView> {
             ElevatedButton(
               child: const Text("Update Values"),
               onPressed: () {
-                _controller.store.update((value) {
-                  return value + 1;
-                });
+                // _controller.store.update((value) {
+                //   return value + 1;
+                // });
+
+                EchoLogger().info(
+                  "EchoController has been initialised",
+                );
+
+                EchoLogger().warn(
+                  "controller has been initialised but not being used",
+                );
+
+                EchoLogger().error(
+                  "error has occurred",
+                  error: UnsupportedError("you made a damn mistake 🔥"),
+                  stackTrace: StackTrace.current,
+                );
+
+                EchoLogger().debug([12, 23]);
               },
             ),
           ],
