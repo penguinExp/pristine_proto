@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 ///
+/// PawPrint -> Playful, adaptable, and navigates through different log levels with ease
+/// [Log your code's journey with every paw print]
+///
 /// EchoLogger to be a singleton
 /// 1. Customizable name, can have it (name or emoji) (bg color or no color) or skip it
 ///
-
 class EchoLogger {
   final String name = "echo";
 
@@ -102,6 +104,7 @@ class EchoLogger {
 
   ///
   /// Get current timestamp in `hh:mm:ss` format
+  /// [done]
   ///
   String _getCurrentTimeStamp() {
     final now = DateTime.now();
@@ -164,11 +167,17 @@ class EchoLogger {
     final stackTraceList =
         stackTrace.toString().split('\n').sublist(0, maxLines);
 
-    final coloredSt =
-        stackTraceList.map((line) => "\x1b[38;5;225m$line").toList().join('\n');
+    final coloredSt = stackTraceList
+        .map(
+          (line) => "\x1b[38;5;225m$line",
+        )
+        .toList()
+        .join(
+          '\n',
+        );
 
     const title = "\x1b[48;5;225m\x1B[30m\x1b[3m stacktrace \x1B[0m";
 
-    return '\n$title \x1b[38;5;243m \n$coloredSt \x1B[0m';
+    return '\n$title \n$coloredSt';
   }
 }

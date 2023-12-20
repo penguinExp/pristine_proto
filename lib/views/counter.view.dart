@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../echo/logger.dart';
 
 import '../echo/builder.dart';
 import '../echo/controller.dart';
 import '../echo/echo.dart';
 import '../echo/store.dart';
+import '../paw_print/paw_print.dart';
 
 class CounterController extends EchoController {
   final store = ValueStore(1);
@@ -88,21 +88,21 @@ class _CounterViewState extends State<CounterView> {
                 //   return value + 1;
                 // });
 
-                EchoLogger().info(
-                  "EchoController has been initialised",
-                );
+                final paw = PawPrint();
 
-                EchoLogger().warn(
-                  "controller has been initialised but not being used",
-                );
-
-                EchoLogger().error(
+                paw.error(
                   "error has occurred",
-                  error: UnsupportedError("you made a damn mistake 🔥"),
+                  error: UnsupportedError("Oops! You've forgot to implement this feature"),
                   stackTrace: StackTrace.current,
                 );
 
-                EchoLogger().debug([12, 23]);
+                paw.debug([12, 23]);
+
+                paw.info("EchoController has been initialised!");
+
+                paw.warn(
+                  "EchoController has been initialised but not being used",
+                );
               },
             ),
           ],

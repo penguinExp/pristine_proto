@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-// import 'views/list_api.view.dart';
-// import 'views/list.view.dart';
-// import 'views/slider.view.dart';
+import 'paw_print/paw_print.dart';
 import 'views/counter.view.dart';
 
 void main() {
+  PawPrint.init(name: "ECHO");
   runApp(const MyApp());
 }
 

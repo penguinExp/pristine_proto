@@ -2,6 +2,13 @@
 
 Prototype for a state management lib in flutter
 
+## Docs
+
+- What is state in Flutter
+- Philosophy of Echo
+- What is graph
+- Inner Working Of Echo
+
 ### Features
 
 - Stores
