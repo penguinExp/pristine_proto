@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../echo/builder.dart';
-import '../echo/store.dart';
+import '../echo_old/builder.dart';
+import '../echo_old/store.dart';
 
 class SimpleListView extends StatefulWidget {
   const SimpleListView({super.key});

@@ -14,6 +14,7 @@ class PawPrint {
     required this.name,
     required this.maxStackTraces,
     required this.shouldPrintName,
+    required this.shouldPrintLogs,
   });
 
   ///
@@ -30,6 +31,11 @@ class PawPrint {
   /// Indicates to print name on the console or not
   ///
   final bool shouldPrintName;
+
+  ///
+  /// Indicates whether printing logs is allowed or not
+  ///
+  final bool shouldPrintLogs;
 
   // Singleton instance
   static PawPrint? _instance;
@@ -50,12 +56,14 @@ class PawPrint {
     String name = 'PAW',
     int maxStackTraces = 5,
     bool shouldPrintName = true,
+    bool shouldPrintLogs = true,
   }) {
     if (_instance == null) {
       _instance = PawPrint._(
         name: name.isEmpty ? "PAW" : name,
         maxStackTraces: maxStackTraces,
         shouldPrintName: shouldPrintName,
+        shouldPrintLogs: shouldPrintLogs,
       );
 
       _initLog("Instance of `PawPrint` created successfully");
@@ -273,6 +281,8 @@ class PawPrint {
   /// in debug mode. It ensures that log messages are displayed during development
   /// but not in release builds.
   ///
+  /// Logs will not be printed if [shouldPrintLogs] is set to `false` by user
+  ///
   /// Example:
   /// ```
   /// // Internal method to print a log message
@@ -280,6 +290,8 @@ class PawPrint {
   /// ```
   ///
   void _printLog(String log) {
-    debugPrint(log);
+    if (shouldPrintLogs) {
+      debugPrint(log);
+    }
   }
 }

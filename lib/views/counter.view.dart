@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../echo/builder.dart';
-import '../echo/controller.dart';
-import '../echo/echo.dart';
-import '../echo/store.dart';
+import '../echo_old/builder.dart';
+import '../echo_old/controller.dart';
+import '../echo_old/echo.dart';
+import '../echo_old/store.dart';
 import '../paw_print/paw_print.dart';
 
 class CounterController extends EchoController {

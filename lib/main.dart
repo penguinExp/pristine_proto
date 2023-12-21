@@ -4,7 +4,6 @@ import 'paw_print/paw_print.dart';
 import 'views/counter.view.dart';
 
 void main() {
-  PawPrint.init(name: "ECHO");
   runApp(const MyApp());
 }
 
@@ -13,6 +12,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PawPrint.init(name: "ECHO");
+
     return MaterialApp(
       title: 'Echo Proto',
       theme: ThemeData(
