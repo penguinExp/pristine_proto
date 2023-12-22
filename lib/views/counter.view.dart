@@ -36,18 +36,18 @@ class CounterView extends StatefulWidget {
 class _CounterViewState extends State<CounterView> {
   late final CounterController _controller;
 
-  final EchoService service = EchoService();
+  final Echo _echo = Echo();
 
   @override
   void initState() {
     super.initState();
 
-    _controller = service.put(() => CounterController());
+    _controller = _echo.put(() => CounterController());
   }
 
   @override
   void dispose() {
-    service.delete(_controller);
+    _echo.delete(_controller);
 
     super.dispose();
   }

@@ -22,6 +22,7 @@ abstract class EchoStoreInterface<T> {
 
   set state(T newState) {
     _state = newState;
+
     _echoStore.updateStoreNodes(this);
   }
 
@@ -35,6 +36,7 @@ abstract class EchoStoreInterface<T> {
 
   void autoUpdate([T Function(T value)? newCallback]) {
     _updateCallback = newCallback ?? _updateCallback;
+
     if (_updateCallback != null) {
       state = _updateCallback!(_state);
     }

@@ -8,11 +8,11 @@ import 'paw_utils.dart';
 ///
 /// Log your code's journey with every paw print.
 ///
-class PawPrint {
+class Paw {
   ///
   /// Private constructor to prevent instantiation
   ///
-  PawPrint._({
+  Paw._({
     required this.name,
     required this.maxStackTraces,
     required this.shouldPrintName,
@@ -46,21 +46,21 @@ class PawPrint {
   final bool shouldIncludeSourceInfo;
 
   // Singleton instance
-  static PawPrint? _instance;
+  static Paw? _instance;
 
   ///
-  /// Initializes the singleton instance of `PawPrint` with optional configuration.
+  /// Initializes the singleton instance of `Paw` with optional configuration.
   ///
-  /// This method creates and returns a singleton instance of the `PawPrint` class.
+  /// This method creates and returns a singleton instance of the `Paw` class.
   /// It allows customization of the log name, maximum stack traces to print, and
   /// whether the name should be printed on the console.
   ///
   /// Example:
   /// ```
-  /// PawPrint.init(name: 'MyApp', maxStackTraces: 3, shouldPrintName: true);
+  /// Paw.init(name: 'MyApp', maxStackTraces: 3, shouldPrintName: true);
   /// ```
   ///
-  static PawPrint init({
+  static Paw init({
     String name = 'PAW',
     int maxStackTraces = 5,
     bool shouldPrintName = true,
@@ -68,7 +68,7 @@ class PawPrint {
     bool shouldIncludeSourceInfo = true,
   }) {
     if (_instance == null) {
-      _instance = PawPrint._(
+      _instance = Paw._(
         name: name.isEmpty ? "PAW" : name,
         maxStackTraces: maxStackTraces,
         shouldPrintName: shouldPrintName,
@@ -83,9 +83,9 @@ class PawPrint {
   }
 
   ///
-  /// Get a singleton instance of `PawPrint`
+  /// Get a singleton instance of `Paw`
   ///
-  factory PawPrint() {
+  factory Paw() {
     if (_instance == null) {
       _onInitError();
     }
@@ -94,15 +94,15 @@ class PawPrint {
   }
 
   ///
-  /// Throws an error if the user tries to access `PawPrint` without calling [init()].
+  /// Throws an error if the user tries to access `Paw` without calling [init()].
   ///
   /// This internal method is responsible for throwing an error when the user attempts
-  /// to access the `PawPrint` singleton instance without initializing it first using
+  /// to access the `Paw` singleton instance without initializing it first using
   /// the [init] method. The error message provides guidance on initializing the instance.
   ///
   static void _onInitError() {
     const errorMsg =
-        "`PawPrint` is not yet initialised, initialise it with `PawPrint.init()`";
+        "`Paw` is not yet initialised, initialise it with `Paw.init()`";
 
     final prettyError = PawUtils.getPrettyError(errorMsg);
 
@@ -114,7 +114,7 @@ class PawPrint {
   }
 
   ///
-  /// Logs an initialization message for `PawPrint`.
+  /// Logs an initialization message for `Paw`.
   ///
   static void _onInitLog(String msg) {
     final timeStamp = PawUtils.getCurrentTimeStamp();
@@ -145,7 +145,7 @@ class PawPrint {
   /// Example:
   /// ```
   /// // Log an informational message
-  /// PawPrint().info('This is an informational message');
+  /// Paw().info('This is an informational message');
   /// ```
   ///
   void info(
@@ -188,7 +188,7 @@ class PawPrint {
   /// Example:
   /// ```
   /// // Log a warning message
-  /// PawPrint().warn('This is a warning message');
+  /// Paw().warn('This is a warning message');
   /// ```
   ///
   void warn(
@@ -231,7 +231,7 @@ class PawPrint {
   /// Example:
   /// ```
   /// // Log a debug message with an object for debugging
-  /// PawPrint().debug({'key': 'value', 'count': 42});
+  /// Paw().debug({'key': 'value', 'count': 42});
   /// ```
   ///
   void debug(
@@ -281,7 +281,7 @@ class PawPrint {
   ///   throw UnsupportedError("Oops! You've forgotten to implement this feature");
   /// } catch (e, stackTrace) {
   ///   // Log an error with a message, error object, and stack trace
-  ///   PawPrint().error('An unexpected error occurred', error: e, stackTrace: stackTrace);
+  ///   Paw().error('An unexpected error occurred', error: e, stackTrace: stackTrace);
   /// }
   /// ```
   ///

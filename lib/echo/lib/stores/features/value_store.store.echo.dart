@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../core/interface.store.echo.dart';
-import '../../../../paw_print/paw_print.dart';
+import '../../../../paw/paw.dart';
 
 ///
 /// Store to hold and update single object states
 ///
 class ValueStore<T> extends EchoStoreInterface<T> {
   // instance of logger
-  final _paw = PawPrint();
+  final _paw = Paw();
 
   late final ValueNotifier<T> _valueNotifier;
 
@@ -16,7 +16,7 @@ class ValueStore<T> extends EchoStoreInterface<T> {
       : super(state, updateCallback: updateCallback) {
     _valueNotifier = ValueNotifier<T>(super.state);
 
-    _paw.info("Created instance of $this");
+    _paw.info("Created value store for $this:$hashCode");
   }
 
   ValueNotifier<T> get listener => _valueNotifier;
@@ -31,9 +31,10 @@ class ValueStore<T> extends EchoStoreInterface<T> {
   @override
   void dispose() {
     _valueNotifier.dispose();
+
     super.dispose();
 
-    _paw.info("Disposed instance of $this");
+    _paw.info("Disposed value store of $this:$hashCode");
   }
 
   @override

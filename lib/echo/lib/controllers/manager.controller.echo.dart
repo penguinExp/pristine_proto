@@ -1,36 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../paw_print/paw_print.dart';
+import '../../../paw/paw.dart';
 import 'interface.controller.echo.dart';
 
 ///
 /// class to manage controllers
 ///
-class EchoService {
-  EchoService._();
-
+mixin EchoControllerManagerMixin {
   // private logger instance
-  static final PawPrint _paw = PawPrint();
-
-  static EchoService? _instance;
-
-  factory EchoService() {
-    if (_instance == null) {
-      throw Exception(
-        "`Echo` is not yet initialised, initialise it with `Echo.init()`",
-      );
-    }
-
-    return _instance!;
-  }
-
-  static EchoService init() {
-    _instance ??= EchoService._();
-
-    _paw.info("Instance of _EchoService_ has been created");
-
-    return _instance!;
-  }
+  final Paw _paw = Paw();
 
   final Map<Key, EchoController> _controllers = {};
 
@@ -43,14 +21,15 @@ class EchoService {
     final key = controller.key;
 
     if (_controllers.containsKey(key)) {
-      return _controllers[key]! as T;
+      _paw.info("Fetched already created instance of $controller");
+      return _controllers[key] as T;
     }
 
     _controllers[key] = controller;
 
     controller.onInit();
 
-    _paw.info("Instance of $controller has been instantiated");
+    _paw.info("Created instance of $controller:${key.toString()}");
 
     return controller;
   }
@@ -67,9 +46,15 @@ class EchoService {
 
       _controllers.remove(key);
 
-      _paw.info("Instance of $controller has been deleted");
+      _paw.info("Instance of $controller:${key.toString()} has been deleted");
+
+      return;
     }
 
-    _paw.warn("Instance of $controller already been deleted");
+    // log an error if controller not found or already been deleted
+    _paw.error(
+      "Error occurred while deleting the controller",
+      error: Exception("Instance of $controller:${key.toString()} not found"),
+    );
   }
 }

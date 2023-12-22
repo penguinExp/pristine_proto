@@ -1,4 +1,4 @@
-import '../../../../paw_print/paw_print.dart';
+import '../../../../paw/paw.dart';
 
 import '../../utils/graph.echo.dart';
 import 'interface.store.echo.dart';
@@ -7,13 +7,15 @@ import 'interface.store.echo.dart';
 ///
 /// It uses a graph structure to manage and update the dependencies.
 class EchoStoreManager {
-  static final _paw = PawPrint();
+  final _paw = Paw();
 
   static EchoStoreManager? _instance;
 
   EchoStoreManager._();
 
   factory EchoStoreManager() {
+    // if user has not created an instance of echo, then throw an error
+    // to tell to initialise the [echo] first
     if (_instance == null) {
       throw Exception(
         "`Echo` is not yet initialised, initialise it with `Echo.init()`",
@@ -25,8 +27,6 @@ class EchoStoreManager {
 
   static EchoStoreManager init() {
     _instance ??= EchoStoreManager._();
-
-    _paw.info("Instance of _EchoStoreManager_ has been created");
 
     return _instance!;
   }
@@ -49,14 +49,14 @@ class EchoStoreManager {
   void addDependency(EchoStoreInterface root, EchoStoreInterface node) {
     _graph.addNode(root, node);
 
-    _paw.info("Added dependency to $root");
+    _paw.info("Added dependency of $node ---> $root");
   }
 
   /// Removes a dependency from a root node.
   void removeDependency(EchoStoreInterface root, EchoStoreInterface node) {
     _graph.removeNode(root, node);
 
-    _paw.info("Removed dependency from $root");
+    _paw.info("Removed dependency of $node --x-> $root");
   }
 
   /// Updates all the dependencies of a particular store.
@@ -70,7 +70,5 @@ class EchoStoreManager {
     for (final element in dependencies) {
       element.autoUpdate();
     }
-
-    _paw.info("Dependent stores are updated for $root");
   }
 }

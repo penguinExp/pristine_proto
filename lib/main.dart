@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'echo/echo.dart';
-import 'paw_print/paw_print.dart';
+import 'paw/paw.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PawPrint.init(
+    Paw.init(
       name: "ECHO",
       shouldIncludeSourceInfo: false,
       maxStackTraces: 3,
@@ -31,26 +31,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-///
-/// Logging guidelines for [echo], 
-/// 
-/// - Stores are initiated and disposed
-/// - Controllers are initiated and disposed
-/// - Instance of classes and services has been created
-/// - errors and warnings
-///
-
-///
-/// Bugs so far,
-/// 
-/// - [echo] controller is getting deleted twice
-/// - [echo] EchoService and EchoStoreManager are getting instantiated again 
-///   and again 
-/// 
-
-///
-/// Features to add,
-/// 
-/// - [Paw] make the name/title color customizable
-/// 
