@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../echo_old/builder.dart';
-import '../echo_old/controller.dart';
-import '../echo_old/echo.dart';
-import '../echo_old/store.dart';
-import '../paw_print/paw_print.dart';
+import '../echo/echo.dart';
 
 class CounterController extends EchoController {
   final store = ValueStore(1);
 
-  late final StreamStore store2;
+  late final ObjectStore store2;
 
   @override
   void onInit() {
-    store2 = StreamStore(
+    store2 = ObjectStore(
       [],
       updateCallback: (value) {
         return value..add(store.state);
@@ -40,18 +36,18 @@ class CounterView extends StatefulWidget {
 class _CounterViewState extends State<CounterView> {
   late final CounterController _controller;
 
-  final Echo echo = Echo();
+  final EchoService service = EchoService();
 
   @override
   void initState() {
     super.initState();
 
-    _controller = echo.put(() => CounterController());
+    _controller = service.put(() => CounterController());
   }
 
   @override
   void dispose() {
-    echo.delete(_controller);
+    service.delete(_controller);
 
     super.dispose();
   }
@@ -74,7 +70,7 @@ class _CounterViewState extends State<CounterView> {
               },
             ),
             const SizedBox(height: 20),
-            StreamStoreBuilder(
+            ObjectStoreBuilder(
               store: _controller.store2,
               widget: (context, data) {
                 return Text("store2 $data");
@@ -84,25 +80,9 @@ class _CounterViewState extends State<CounterView> {
             ElevatedButton(
               child: const Text("Update Values"),
               onPressed: () {
-                // _controller.store.update((value) {
-                //   return value + 1;
-                // });
-
-                final paw = PawPrint();
-
-                paw.error(
-                  "error has occurred",
-                  error: UnsupportedError("Oops! You've forgot to implement this feature"),
-                  stackTrace: StackTrace.current,
-                );
-
-                paw.debug([12, 23]);
-
-                paw.info("EchoController has been initialised!");
-
-                paw.warn(
-                  "EchoController has been initialised but not being used",
-                );
+                _controller.store.update((value) {
+                  return value + 1;
+                });
               },
             ),
           ],

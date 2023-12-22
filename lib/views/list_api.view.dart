@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../echo_old/builder.dart';
-import '../echo_old/store.dart';
+import '../echo/echo.dart';
 
 class ListApiView extends StatefulWidget {
   const ListApiView({super.key});
@@ -14,7 +13,7 @@ class ListApiView extends StatefulWidget {
 }
 
 class _ListApiViewState extends State<ListApiView> {
-  final todoStore = StreamStore([]);
+  final todoStore = ObjectStore([]);
 
   Future<void> fetchTodo() async {
     final response = await http.get(
@@ -46,7 +45,7 @@ class _ListApiViewState extends State<ListApiView> {
         child: Column(
           children: [
             Expanded(
-              child: StreamStoreBuilder(
+              child: ObjectStoreBuilder(
                 store: todoStore,
                 widget: (context, data) {
                   return ListView.builder(

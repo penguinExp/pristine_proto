@@ -9,12 +9,15 @@ import 'paw_utils.dart';
 /// Log your code's journey with every paw print.
 ///
 class PawPrint {
-  // Private constructor to prevent instantiation
+  ///
+  /// Private constructor to prevent instantiation
+  ///
   PawPrint._({
     required this.name,
     required this.maxStackTraces,
     required this.shouldPrintName,
     required this.shouldPrintLogs,
+    required this.shouldIncludeSourceInfo,
   });
 
   ///
@@ -37,6 +40,11 @@ class PawPrint {
   ///
   final bool shouldPrintLogs;
 
+  ///
+  /// Indicates whether to print source file info or not
+  ///
+  final bool shouldIncludeSourceInfo;
+
   // Singleton instance
   static PawPrint? _instance;
 
@@ -57,6 +65,7 @@ class PawPrint {
     int maxStackTraces = 5,
     bool shouldPrintName = true,
     bool shouldPrintLogs = true,
+    bool shouldIncludeSourceInfo = true,
   }) {
     if (_instance == null) {
       _instance = PawPrint._(
@@ -64,9 +73,10 @@ class PawPrint {
         maxStackTraces: maxStackTraces,
         shouldPrintName: shouldPrintName,
         shouldPrintLogs: shouldPrintLogs,
+        shouldIncludeSourceInfo: shouldIncludeSourceInfo,
       );
 
-      _initLog("Instance of `PawPrint` created successfully");
+      _onInitLog("Instance of _PawPrint_ created successfully");
     }
 
     return _instance!;
@@ -106,7 +116,7 @@ class PawPrint {
   ///
   /// Logs an initialization message for `PawPrint`.
   ///
-  static void _initLog(String msg) {
+  static void _onInitLog(String msg) {
     final timeStamp = PawUtils.getCurrentTimeStamp();
 
     final title = PawUtils.getDecoratedName("PAW", true);
@@ -138,9 +148,19 @@ class PawPrint {
   /// PawPrint().info('This is an informational message');
   /// ```
   ///
-  void info(String msg, {StackTrace? stackTrace}) {
+  void info(
+    String msg, {
+    StackTrace? stackTrace,
+  }) {
+    // Do nothing if current environment is not debug
+    if (!kDebugMode) return;
+
     final timeStamp = PawUtils.getCurrentTimeStamp();
-    final sourceFileInfo = PawUtils.getSourceFileInfo(stackTrace);
+
+    final sourceFileInfo = PawUtils.getSourceFileInfo(
+      stackTrace,
+      shouldIncludeSourceInfo,
+    );
 
     final title = PawUtils.getDecoratedName(name, shouldPrintName);
 
@@ -151,7 +171,7 @@ class PawPrint {
     );
 
     final decoratedLog = PawUtils.getDecoratedString(
-      "$sourceFileInfo | $timeStamp | $msg",
+      "${sourceFileInfo.isEmpty ? '' : '$sourceFileInfo | '}$timeStamp | $msg",
       fg: AnsiFgColor.yellow,
     );
 
@@ -171,9 +191,19 @@ class PawPrint {
   /// PawPrint().warn('This is a warning message');
   /// ```
   ///
-  void warn(String msg, {StackTrace? stackTrace}) {
+  void warn(
+    String msg, {
+    StackTrace? stackTrace,
+  }) {
+    // Do nothing if current environment is not debug
+    if (!kDebugMode) return;
+
     final timeStamp = PawUtils.getCurrentTimeStamp();
-    final sourceFileInfo = PawUtils.getSourceFileInfo(stackTrace);
+
+    final sourceFileInfo = PawUtils.getSourceFileInfo(
+      stackTrace,
+      shouldIncludeSourceInfo,
+    );
 
     final title = PawUtils.getDecoratedName(name, shouldPrintName);
 
@@ -184,7 +214,7 @@ class PawPrint {
     );
 
     final decoratedLog = PawUtils.getDecoratedString(
-      "$sourceFileInfo | $timeStamp | $msg",
+      "${sourceFileInfo.isEmpty ? '' : '$sourceFileInfo | '}$timeStamp | $msg",
       fg: AnsiFgColor.pink,
     );
 
@@ -204,9 +234,19 @@ class PawPrint {
   /// PawPrint().debug({'key': 'value', 'count': 42});
   /// ```
   ///
-  void debug(Object obj, {StackTrace? stackTrace}) {
+  void debug(
+    Object obj, {
+    StackTrace? stackTrace,
+  }) {
+    // Do nothing if current environment is not debug
+    if (!kDebugMode) return;
+
     final timeStamp = PawUtils.getCurrentTimeStamp();
-    final sourceFileInfo = PawUtils.getSourceFileInfo(stackTrace);
+
+    final sourceFileInfo = PawUtils.getSourceFileInfo(
+      stackTrace,
+      shouldIncludeSourceInfo,
+    );
 
     final title = PawUtils.getDecoratedName(name, shouldPrintName);
 
@@ -217,7 +257,7 @@ class PawPrint {
     );
 
     final decoratedLog = PawUtils.getDecoratedString(
-      "$sourceFileInfo | $timeStamp",
+      "${sourceFileInfo.isEmpty ? '' : '$sourceFileInfo | '}$timeStamp",
       fg: AnsiFgColor.lightPink,
     );
 
@@ -245,9 +285,20 @@ class PawPrint {
   /// }
   /// ```
   ///
-  void error(String msg, {Object? error, StackTrace? stackTrace}) {
+  void error(
+    String msg, {
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
+    // Do nothing if current environment is not debug
+    if (!kDebugMode) return;
+
     final timeStamp = PawUtils.getCurrentTimeStamp();
-    final sourceFileInfo = PawUtils.getSourceFileInfo(stackTrace);
+
+    final sourceFileInfo = PawUtils.getSourceFileInfo(
+      stackTrace,
+      shouldIncludeSourceInfo,
+    );
 
     final title = PawUtils.getDecoratedName(name, shouldPrintName);
 
@@ -258,7 +309,7 @@ class PawPrint {
     );
 
     final decoratedLog = PawUtils.getDecoratedString(
-      "$sourceFileInfo | $timeStamp | $msg",
+      "${sourceFileInfo.isEmpty ? '' : '$sourceFileInfo | '}$timeStamp | $msg",
       fg: AnsiFgColor.orange,
     );
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../echo_old/builder.dart';
-import '../echo_old/store.dart';
+import '../echo/echo.dart';
 
 class SliderView extends StatefulWidget {
   const SliderView({super.key});

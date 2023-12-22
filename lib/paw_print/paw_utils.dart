@@ -87,7 +87,12 @@ class PawUtils {
   /// print(fileInfo); // Outputs: "paw.dart:42" (depending on the actual source file and line number)
   /// ```
   ///
-  static String getSourceFileInfo([StackTrace? stackTrace]) {
+  static String getSourceFileInfo([
+    StackTrace? stackTrace,
+    bool includeSource = true,
+  ]) {
+    if (!includeSource) return "";
+
     stackTrace ??= StackTrace.current;
 
     final fileInfo = _extractSourceFileInfo(stackTrace);
@@ -116,7 +121,7 @@ class PawUtils {
           (element) =>
               !element.contains('PawPrint') &&
               !element.contains(
-                'PawPawUtils',
+                'PawUtils',
               ),
           orElse: () => '',
         );
