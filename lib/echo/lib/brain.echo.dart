@@ -40,6 +40,8 @@ class Echo with EchoControllerManagerMixin {
         shouldPrintLogs: printLogs,
       );
 
+      Paw().info("Echo has been initialised");
+
       // init store manager
       EchoStoreManager.init();
     }

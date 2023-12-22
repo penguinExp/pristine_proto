@@ -21,7 +21,7 @@ mixin EchoControllerManagerMixin {
     final key = controller.key;
 
     if (_controllers.containsKey(key)) {
-      _paw.info("Fetched already created instance of $controller");
+      _paw.info("Fetched already created $controller:${key.hashCode}");
       return _controllers[key] as T;
     }
 
@@ -29,7 +29,7 @@ mixin EchoControllerManagerMixin {
 
     controller.onInit();
 
-    _paw.info("Created instance of $controller:${key.toString()}");
+    _paw.info("Created $controller:${key.hashCode}");
 
     return controller;
   }
@@ -46,7 +46,7 @@ mixin EchoControllerManagerMixin {
 
       _controllers.remove(key);
 
-      _paw.info("Instance of $controller:${key.toString()} has been deleted");
+      _paw.info("$controller:${key.hashCode} has been deleted");
 
       return;
     }
@@ -54,7 +54,7 @@ mixin EchoControllerManagerMixin {
     // log an error if controller not found or already been deleted
     _paw.error(
       "Error occurred while deleting the controller",
-      error: Exception("Instance of $controller:${key.toString()} not found"),
+      error: Exception("$controller:${key.hashCode} not found"),
     );
   }
 }

@@ -47,16 +47,33 @@ class EchoStoreManager {
 
   /// Adds a dependency for a root node.
   void addDependency(EchoStoreInterface root, EchoStoreInterface node) {
-    _graph.addNode(root, node);
+    if (_graph.addNode(root, node)) {
+      _paw.info(
+        "Created dependency of ${node.toString()} ---> ${root.toString()}",
+      );
+      return;
+    }
 
-    _paw.info("Added dependency of $node ---> $root");
+    _paw.error(
+      "Unable to create dependency of ${node.toString()} ---> ${root.toString()}",
+      error: "Either dependency already created or root node does not exists",
+    );
   }
 
   /// Removes a dependency from a root node.
   void removeDependency(EchoStoreInterface root, EchoStoreInterface node) {
-    _graph.removeNode(root, node);
+    if (_graph.removeNode(root, node)) {
+      _paw.info(
+        "Removed dependency of ${node.toString()} --x-> ${root.toString()}",
+      );
+      return;
+    }
 
-    _paw.info("Removed dependency of $node --x-> $root");
+    _paw.error(
+      "Unable to remove dependency from ${root.toString()}",
+      error:
+          "No dependency found between ${node.toString()} --> ${root.toString()}",
+    );
   }
 
   /// Updates all the dependencies of a particular store.

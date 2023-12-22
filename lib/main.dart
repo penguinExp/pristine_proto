@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     Paw.init(
       name: "ECHO",
       shouldIncludeSourceInfo: false,

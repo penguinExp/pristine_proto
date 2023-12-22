@@ -5,16 +5,13 @@ import '../echo/echo.dart';
 class CounterController extends EchoController {
   final store = ValueStore(1);
 
-  late final ObjectStore store2;
+  final store2 = ObjectStore(<int>[]);
 
   @override
   void onInit() {
-    store2 = ObjectStore(
-      [],
-      updateCallback: (value) {
-        return value..add(store.state);
-      },
-    );
+    store2.setUpdateCallback((value) {
+      return value..add(store.state);
+    });
 
     store.addDependency(store2);
   }
@@ -80,6 +77,10 @@ class _CounterViewState extends State<CounterView> {
             ElevatedButton(
               child: const Text("Update Values"),
               onPressed: () {
+                if (_controller.store.state >= 3) {
+                  _controller.store.removeDependency(_controller.store2);
+                }
+
                 _controller.store.update((value) {
                   return value + 1;
                 });

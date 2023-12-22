@@ -76,7 +76,7 @@ class Paw {
         shouldIncludeSourceInfo: shouldIncludeSourceInfo,
       );
 
-      _onInitLog("Instance of _PawPrint_ created successfully");
+      _onInitLog("Paw has been initialised");
     }
 
     return _instance!;
@@ -320,8 +320,14 @@ class Paw {
     );
 
     _printLog("$title$decoratedLevel $decoratedLog");
-    _printLog(decoratedError);
-    _printLog(decoratedSt);
+
+    if (decoratedError.isNotEmpty) {
+      _printLog(decoratedError);
+    }
+
+    if (decoratedSt.isNotEmpty) {
+      _printLog(decoratedSt);
+    }
   }
 
   ///

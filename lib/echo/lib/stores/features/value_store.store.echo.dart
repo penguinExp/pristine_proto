@@ -16,7 +16,7 @@ class ValueStore<T> extends EchoStoreInterface<T> {
       : super(state, updateCallback: updateCallback) {
     _valueNotifier = ValueNotifier<T>(super.state);
 
-    _paw.info("Created value store for $this:$hashCode");
+    _paw.info("Created ${toString()} - $hashCode");
   }
 
   ValueNotifier<T> get listener => _valueNotifier;
@@ -34,7 +34,7 @@ class ValueStore<T> extends EchoStoreInterface<T> {
 
     super.dispose();
 
-    _paw.info("Disposed value store of $this:$hashCode");
+    _paw.info("Disposed ${toString()} - $hashCode");
   }
 
   @override
@@ -42,4 +42,9 @@ class ValueStore<T> extends EchoStoreInterface<T> {
 
   @override
   void update(T Function(T value) callback) => state = callback(super.state);
+
+  @override
+  String toString() {
+    return "ValueStore<$T>";
+  }
 }
