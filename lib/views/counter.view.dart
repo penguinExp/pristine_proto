@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../echo/echo.dart';
+import '../paw/paw.dart';
 
 class CounterController extends EchoController {
   final store = ValueStore(1);
 
-  final store2 = ObjectStore(<int>[]);
+  final store2 = ValueStore(<int>[]);
 
   @override
   void onInit() {
@@ -67,7 +68,7 @@ class _CounterViewState extends State<CounterView> {
               },
             ),
             const SizedBox(height: 20),
-            ObjectStoreBuilder(
+            ValueBuilder(
               store: _controller.store2,
               widget: (context, data) {
                 return Text("store2 $data");
@@ -79,11 +80,29 @@ class _CounterViewState extends State<CounterView> {
               onPressed: () {
                 if (_controller.store.state >= 3) {
                   _controller.store.removeDependency(_controller.store2);
+                  Paw().info('removed dependency from store of store2');
                 }
 
                 _controller.store.update((value) {
                   return value + 1;
                 });
+
+                // Paw().warn('This is a warning message');
+
+                // Paw().debug({'key': 'value', 'count': 42});
+
+                // try {
+                //   throw UnsupportedError(
+                //     "Oops! You've forgotten to implement this feature",
+                //   );
+                // } catch (e, stackTrace) {
+                //   // Log an error with a message, error object, and stack trace
+                //   Paw().error(
+                //     'An unexpected error occurred',
+                //     error: e,
+                //     stackTrace: stackTrace,
+                //   );
+                // }
               },
             ),
           ],

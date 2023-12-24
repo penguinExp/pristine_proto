@@ -6,7 +6,7 @@ import '../../../../paw/paw.dart';
 ///
 /// Store to hold and update single object states
 ///
-class ValueStore<T> extends EchoStoreInterface<T> {
+class ValueStore<T> extends EchoStoreInterface<T> with ChangeNotifier {
   // instance of logger
   final _paw = Paw();
 
@@ -26,6 +26,15 @@ class ValueStore<T> extends EchoStoreInterface<T> {
     super.state = newState;
 
     _valueNotifier.value = super.state;
+
+    // Check if T is not int, double, String or bool
+    if (!(newState is int ||
+        newState is double ||
+        newState is String ||
+        newState is bool)) {
+      // notify only if [T] is object, map or list, etc.
+      _valueNotifier.notifyListeners();
+    }
   }
 
   @override

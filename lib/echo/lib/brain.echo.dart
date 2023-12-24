@@ -34,10 +34,11 @@ class Echo with EchoControllerManagerMixin {
 
       // init logger
       Paw.init(
-        name: "echo",
+        name: "PAW",
         maxStackTraces: 3,
         shouldPrintName: true,
         shouldPrintLogs: printLogs,
+        shouldIncludeSourceInfo: false,
       );
 
       Paw().info("Echo has been initialised");

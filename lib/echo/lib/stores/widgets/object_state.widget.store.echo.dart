@@ -3,11 +3,11 @@ import 'package:flutter/widgets.dart';
 import '../builders/object_builder.store.echo.dart';
 import '../features/object_store.store.echo.dart';
 
-abstract class StreamStateWidget<T> extends StatefulWidget {
+abstract class ObjectStateWidget<T> extends StatefulWidget {
   final T state;
   late final ObjectStore<T> store;
 
-  StreamStateWidget({
+  ObjectStateWidget({
     required this.state,
     Key? key,
   }) : super(key: key) {
@@ -30,7 +30,7 @@ abstract class StreamStateWidget<T> extends StatefulWidget {
   StreamStateWidgetState createState() => StreamStateWidgetState();
 }
 
-class StreamStateWidgetState<T> extends State<StreamStateWidget> {
+class StreamStateWidgetState<T> extends State<ObjectStateWidget> {
   @override
   void initState() {
     super.initState();
