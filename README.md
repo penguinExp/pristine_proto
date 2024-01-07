@@ -1,3 +1,3 @@
 # Ecko 🕸️ Prototype
 
-Prototype for a Ecko, a state management lib in flutter
+Prototype for a Ecko, a state management library in flutter
