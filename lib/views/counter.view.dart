@@ -78,18 +78,25 @@ class _CounterViewState extends State<CounterView> {
             ElevatedButton(
               child: const Text("Update Values"),
               onPressed: () {
-                if (_controller.store.state >= 3) {
-                  _controller.store.removeDependency(_controller.store2);
-                  Paw().info('removed dependency from store of store2');
-                }
+                // if (_controller.store.state >= 3) {
+                //   _controller.store.removeDependency(_controller.store2);
+                //   Paw().info('removed dependency from store of store2');
+                // }
 
-                _controller.store.update((value) {
-                  return value + 1;
-                });
+                // _controller.store.update((value) {
+                //   return value + 1;
+                // });
 
                 // Paw().warn('This is a warning message');
 
-                // Paw().debug({'key': 'value', 'count': 42});
+                Paw().debug({'key': 'value', 'count': 42});
+
+                const bg = "\x1b[48;5;200m";
+                const fg = "\x1b[38;5;15m";
+                const escape = "\x1B[0m";
+
+                // ignore: avoid_print
+                print("$bg$fg PAW $escape| ");
 
                 // try {
                 //   throw UnsupportedError(
