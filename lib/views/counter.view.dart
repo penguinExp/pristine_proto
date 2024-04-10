@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../echo/echo.dart';
-import '../paw/paw.dart';
+// import '../paw/paw.dart';
 
 class CounterController extends EchoController {
   final store = ValueStore(1);
@@ -89,7 +89,7 @@ class _CounterViewState extends State<CounterView> {
 
                 // Paw().warn('This is a warning message');
 
-                Paw().debug({'key': 'value', 'count': 42});
+                // Paw().debug({'key': 'value', 'count': 42});
 
                 const bg = "\x1b[48;5;200m";
                 const fg = "\x1b[38;5;15m";

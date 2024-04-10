@@ -1,4 +1,4 @@
-import '../../../../paw/paw.dart';
+// import '../../../../paw/paw.dart';
 
 import '../../utils/graph.echo.dart';
 import 'interface.store.echo.dart';
@@ -7,7 +7,7 @@ import 'interface.store.echo.dart';
 ///
 /// It uses a graph structure to manage and update the dependencies.
 class EchoStoreManager {
-  final _paw = Paw();
+  // final _paw = Paw();
 
   static EchoStoreManager? _instance;
 
@@ -48,32 +48,32 @@ class EchoStoreManager {
   /// Adds a dependency for a root node.
   void addDependency(EchoStoreInterface root, EchoStoreInterface node) {
     if (_graph.addNode(root, node)) {
-      _paw.info(
-        "Created dependency of ${node.toString()} ---> ${root.toString()}",
-      );
+      // _paw.info(
+      //   "Created dependency of ${node.toString()} ---> ${root.toString()}",
+      // );
       return;
     }
 
-    _paw.error(
-      "Unable to create dependency of ${node.toString()} ---> ${root.toString()}",
-      error: "Either dependency already created or root node does not exists",
-    );
+    // _paw.error(
+    //   "Unable to create dependency of ${node.toString()} ---> ${root.toString()}",
+    //   error: "Either dependency already created or root node does not exists",
+    // );
   }
 
   /// Removes a dependency from a root node.
   void removeDependency(EchoStoreInterface root, EchoStoreInterface node) {
     if (_graph.removeNode(root, node)) {
-      _paw.info(
-        "Removed dependency of ${node.toString()} --x-> ${root.toString()}",
-      );
+      // _paw.info(
+      //   "Removed dependency of ${node.toString()} --x-> ${root.toString()}",
+      // );
       return;
     }
 
-    _paw.error(
-      "Unable to remove dependency from ${root.toString()}",
-      error:
-          "No dependency found between ${node.toString()} --> ${root.toString()}",
-    );
+    // _paw.error(
+    //   "Unable to remove dependency from ${root.toString()}",
+    //   error:
+    //       "No dependency found between ${node.toString()} --> ${root.toString()}",
+    // );
   }
 
   /// Updates all the dependencies of a particular store.

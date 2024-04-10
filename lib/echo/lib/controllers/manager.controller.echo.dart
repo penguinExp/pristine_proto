@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../paw/paw.dart';
+// import '../../../paw/paw.dart';
 import 'interface.controller.echo.dart';
 
 ///
@@ -8,7 +8,7 @@ import 'interface.controller.echo.dart';
 ///
 mixin EchoControllerManagerMixin {
   // private logger instance
-  final Paw _paw = Paw();
+  // final Paw _paw = Paw();
 
   final Map<Key, EchoController> _controllers = {};
 
@@ -21,7 +21,7 @@ mixin EchoControllerManagerMixin {
     final key = controller.key;
 
     if (_controllers.containsKey(key)) {
-      _paw.info("Fetched already created $controller:${key.hashCode}");
+      // _paw.info("Fetched already created $controller:${key.hashCode}");
       return _controllers[key] as T;
     }
 
@@ -29,7 +29,7 @@ mixin EchoControllerManagerMixin {
 
     controller.onInit();
 
-    _paw.info("Created $controller:${key.hashCode}");
+    // _paw.info("Created $controller:${key.hashCode}");
 
     return controller;
   }
@@ -46,15 +46,15 @@ mixin EchoControllerManagerMixin {
 
       _controllers.remove(key);
 
-      _paw.info("$controller:${key.hashCode} has been deleted");
+      // _paw.info("$controller:${key.hashCode} has been deleted");
 
       return;
     }
 
     // log an error if controller not found or already been deleted
-    _paw.error(
-      "Error occurred while deleting the controller",
-      error: Exception("$controller:${key.hashCode} not found"),
-    );
+    // _paw.error(
+    //   "Error occurred while deleting the controller",
+    //   error: Exception("$controller:${key.hashCode} not found"),
+    // );
   }
 }

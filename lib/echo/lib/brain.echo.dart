@@ -1,4 +1,4 @@
-import '../../paw/paw.dart';
+// import '../../paw/paw.dart';
 import 'controllers/manager.controller.echo.dart';
 import 'stores/core/manager.store.echo.dart';
 
@@ -33,15 +33,15 @@ class Echo with EchoControllerManagerMixin {
       _instance = Echo._(printLogs: printLogs);
 
       // init logger
-      Paw.init(
-        name: "PAW",
-        maxStackTraces: 3,
-        shouldPrintName: true,
-        shouldPrintLogs: printLogs,
-        shouldIncludeSourceInfo: false,
-      );
+      // Paw.init(
+      //   name: "PAW",
+      //   maxStackTraces: 3,
+      //   shouldPrintName: true,
+      //   shouldPrintLogs: printLogs,
+      //   shouldIncludeSourceInfo: false,
+      // );
 
-      Paw().info("Echo has been initialised");
+      // Paw().info("Echo has been initialised");
 
       // init store manager
       EchoStoreManager.init();

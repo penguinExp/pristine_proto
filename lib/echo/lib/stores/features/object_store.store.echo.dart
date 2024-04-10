@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../../../paw/paw.dart';
+// import '../../../../paw/paw.dart';
 import '../core/interface.store.echo.dart';
 
 ///
@@ -8,7 +8,7 @@ import '../core/interface.store.echo.dart';
 ///
 class ObjectStore<T> extends EchoStoreInterface<T> {
   // instance of logger
-  final _paw = Paw();
+  // final _paw = Paw();
 
   late final StreamController<T> _streamController;
 
@@ -17,7 +17,7 @@ class ObjectStore<T> extends EchoStoreInterface<T> {
     _streamController = StreamController<T>.broadcast();
     _streamController.add(super.state);
 
-    _paw.info("Created ${toString()} - $hashCode");
+    // _paw.info("Created ${toString()} - $hashCode");
   }
 
   Stream<T> get listener => _streamController.stream;
@@ -34,7 +34,7 @@ class ObjectStore<T> extends EchoStoreInterface<T> {
 
     super.dispose();
 
-    _paw.info("Disposed ${toString()} - $hashCode");
+    // _paw.info("Disposed ${toString()} - $hashCode");
   }
 
   @override

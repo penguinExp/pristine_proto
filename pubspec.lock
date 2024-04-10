@@ -131,6 +131,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  paw:
+    dependency: "direct main"
+    description:
+      name: paw
+      sha256: e30c3d925d21dc2585ca7c7f8088c959df6ced3b20f0b18d97d72ef3b56287b8
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   sky_engine:
     dependency: transitive
     description: flutter
